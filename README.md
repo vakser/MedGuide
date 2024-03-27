@@ -37,10 +37,10 @@ liver function, drug intolerance in the past, severity of illness and so on. For
 drugs is measured in abstract units.
 
 - A user with role 'Pharmacist' has access to the list of prescriptions and can dispense prescribed medications from the
-storage if they are in stock and have sufficient amount. Besides that, 'Pharmacist' user can add new medications in the 
+storage if they are in stock and have sufficient amount. Besides that, 'Pharmacist' user can add new medications to the 
 storage, increase amount of medications in the storage, delete medications from the storage. During dispensation of a 
 medication 'Pharmacist' can choose one from the list of equivalents in storage with sufficient amount. For the sake of 
-simplicity, it is assumed that 1 unit of a medication corresponds to 1 unit of other medication with the same active 
+simplicity, it is assumed that 1 unit of a medication is equal to 1 unit of other medication with the same active 
 ingredient.
 
 - A user with role 'Admin' has access to all endpoints that 'Physician' and 'Pharmacist' users have. Besides that, 
