@@ -54,7 +54,7 @@ break the app. For demonstration purposes, only back-end data validation was imp
 
 - Please, use this app only for learning purposes.
 
-- Any comments, corrections and advices will be appreciated.
+- Any comments, corrections and advice will be appreciated.
 
 - You can use the image below as an example for creation of diseases:
   
