@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: page-head('Check prescription')}"></head>
+<body>
+    <div th:replace="~{navigation :: menu}"></div>
+    <div class="container-fluid mb-lg-5">
+        <div class="text-center">
+            <h4>For prescription ID <span style="color:red;" th:text="${prescription.id}"></span>
+            and diagnosis <span style="color: red" th:text="${prescription.diagnosis}"></span></h4>
+        </div>
+        <div th:if="${numberOfNonDispensed > 0}">
+            <div class="text-center">
+                <h4>medications which were not yet dispensed are listed below:</h4>
+            </div>
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Active ingredient</th>
+                    <th>Amount</th>
+                    <th>Dispense medication or its equivalent from the storage</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${!prescribedMedication.dispensed}" th:each="prescribedMedication : ${medicationsToDispense}">
+                    <td th:text="${prescribedMedication.name}"></td>
+                    <td th:text="${prescribedMedication.activeIngredient}"></td>
+                    <td th:text="${prescribedMedication.amount}"></td>
+                    <td>
+                        <a class="btn btn-secondary" th:href="@{/dispenseForm(prescribedMedicationId=${prescribedMedication.getId()})}">Dispense</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:if="${numberOfNonDispensed == 0}">
+            <div class="text-center">
+                <h4>all medications were already dispensed.</h4>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

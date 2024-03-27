@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: page-head('Prescriptions')}"></head>
+<body>
+    <div th:replace="~{navigation :: menu}"></div>
+    <div class="container-fluid mb-lg-5">
+        <div th:if="${prescriptionsWithNonDispensedMedications.size() > 0}">
+            <div class="text-center">
+                <h3>List of prescriptions</h3>
+            </div>
+            <div>
+                <table class="table table-bordered table-striped table-hover">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>Id</th>
+                        <th>Diagnosis</th>
+                        <th>Prescribed medications (name and quantity)</th>
+                        <th>Prescription</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="prescription : ${prescriptionsWithNonDispensedMedications}">
+                        <td th:text="${prescription.id}"></td>
+                        <td th:text="${prescription.diagnosis}"></td>
+                        <td>
+                            <ul th:each="prescribedMedication : ${prescription.prescribedMedications}">
+                                <li th:text="${prescribedMedication.name} + ' - ' + ${prescribedMedication.amount}"></li>
+                            </ul>
+                        </td>
+                        <td>
+                            <a class="btn btn-secondary" th:href="@{/checkPrescription(prescriptionId=${prescription.getId()})}">Check in storage and dispense</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div th:if="${prescriptionsWithNonDispensedMedications.size() == 0}">
+            <div class="text-center">
+                <h3>There are no prescriptions with non-dispensed medications at the moment!</h3>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

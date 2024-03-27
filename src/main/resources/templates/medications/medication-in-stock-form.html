@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: page-head('Put medication in storage')}"></head>
+<body>
+    <div th:replace="~{navigation :: menu}"></div>
+    <div class="container-fluid mb-2">
+        <div class="text-center">
+            <h3>Enter details of the medication you are going to put in storage</h3>
+        </div>
+        <form th:action="@{/saveMedication}" th:object="${medicationInStock}" method="post" style="max-width: 700px; margin: 0 auto">
+            <div class="border border-secondary rounded p-3">
+                <div class="mb-3 row">
+                    <label for="inputName" class="col-sm-4 col-form-label">Name:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="inputName" th:field="*{name}" required>
+                        <span th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}"></span>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="inputActiveIngredient" class="col-sm-4 col-form-label">Active ingredient:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="inputActiveIngredient" th:field="*{activeIngredient}" required>
+                        <span th:if="${#fields.hasErrors('activeIngredient')}" th:errorclass="error" th:errors="*{activeIngredient}"></span>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="inputAmount" class="col-sm-4 col-form-label">Amount:</label>
+                    <div class="col-sm-8">
+                        <input type="number" class="form-control" min="0" id="inputAmount" th:field="*{amount}">
+                        <span th:if="${#fields.hasErrors('amount')}" th:errorclass="error" th:errors="*{amount}"></span>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <input type="submit" value="Put medication in storage" class="btn btn-primary m-3"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

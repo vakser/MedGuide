@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: page-head('Add disease')}"></head>
+<body>
+<div th:replace="~{navigation :: menu}"></div>
+<div class="container-fluid mb-2">
+    <div class="text-center">
+        <h3>Details of a new disease</h3>
+    </div>
+    <form th:action="@{/addDisease}" th:object="${disease}" method="post" style="max-width: 1200px; margin: 0 auto">
+        <div class="border border-secondary rounded p-3">
+            <div class="mb-3 row">
+                <label for="inputName" class="col-sm-2 col-form-label">Name:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputName" th:field="*{name}" placeholder="Enter disease name">
+                    <span th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}"></span>
+                </div>
+            </div>
+            <div class="text-center">
+                <h4>Signs:</h4>
+            </div>
+            <div th:each="sign : ${allSigns}">
+                <input class="form-check-input" type="checkbox" name="signs" th:value="${sign.id}" th:field="*{signs}">
+                <label class="form-check-label" th:text="${sign.name}"></label>
+            </div>
+            <span th:if="${#fields.hasErrors('signs')}" th:errorclass="error" th:errors="*{signs}"></span>
+            <div class="text-center">
+                <h4>Diagnostic procedures:</h4>
+            </div>
+            <div th:each="procedure : ${allDiagnosticProcedures}">
+                <input class="form-check-input" type="checkbox" th:value="${procedure.id}" th:field="*{diagnosticProcedures}">
+                <label class="form-check-label" th:text="${procedure.name}"></label>
+            </div>
+            <span th:if="${#fields.hasErrors('diagnosticProcedures')}" th:errorclass="error" th:errors="*{diagnosticProcedures}"></span>
+            <div class="text-center mt-2">
+                <h4>Medications (with active ingredient in brackets). Pay attention that it is <span style="color: sandybrown">not recommended to use two or more drugs with the same active ingredient simultaneously!</span></h4>
+            </div>
+            <div th:each="medication : ${allMedications}">
+                <input class="form-check-input" type="checkbox" th:value="${medication.id}" th:field="*{medications}">
+                <label class="form-check-label" th:text="${medication.name + '(' + medication.activeIngredient + ')'}"></label>
+            </div>
+            <span th:if="${#fields.hasErrors('medications')}" th:errorclass="error" th:errors="*{medications}"></span>
+            <div class="text-center">
+                <input type="submit" value="Add disease" class="btn btn-primary m-3"/>
+            </div>
+        </div>
+    </form>
+</div>
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

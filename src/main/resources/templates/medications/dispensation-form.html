@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: page-head('Dispense medications')}"></head>
+<body>
+    <div th:replace="~{navigation :: menu}"></div>
+    <div class="container-fluid mb-lg-5">
+        <div class="text-center">
+            <h4>For prescribed medication <span style="color: red" th:text="${prescribedMedication.name}"></span></h4>
+        </div>
+        <div th:if="${equivalentsWithSufficientAmount.size() > 0}">
+            <div class="text-center">
+                <h4>choose one from equivalents in the drop-down list below (available amount after dash):</h4>
+            </div>
+            <form th:action="@{dispenseMedication}" th:object="${dispensedMedication}" method="post" style="max-width: 700px; margin: 0 auto">
+                <div class="border border-secondary rounded p-3">
+                    <div>
+                        <label class="col-sm-12 col-form-label">
+                            <select class="form-select" th:field="*{name}">
+                                <option th:if="${medication.amount >= prescribedMedication.amount}" th:each="medication : ${equivalentsWithSufficientAmount}" th:value="${medication.name}" th:text="${medication.name + ' - ' + medication.amount}" ></option>
+                            </select>
+                        </label>
+                        <label>
+                            <input type="hidden" th:value="${prescribedMedication}" th:field="*{prescribedMedication}">
+                        </label>
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" value="Dispense medication" class="btn btn-primary"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div th:if="${equivalentsWithSufficientAmount.size() == 0}" class="text-center">
+            <h4>there are no equivalents with sufficient amount at the moment. Increase stocks!</h4>
+        </div>
+    </div>
+    <footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: page-head('Add user')}"></head>
+<body>
+<div th:replace="~{navigation :: menu}"></div>
+<div class="container-fluid mb-2">
+    <div class="text-center">
+        <h3>Details of the new user</h3>
+    </div>
+    <form th:action="@{/users/save}" method="post" style="max-width: 700px; margin: 0 auto" th:object="${user}">
+        <div class="border border-secondary rounded p-3">
+            <div class="mb-3 row">
+                <label for="inputEmail" class="col-sm-2 col-form-label">Email:</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" id="inputEmail" placeholder="email@example.com" th:field="*{email}" required minlength="8" maxlength="128">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Password:</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="inputPassword" th:field="*{password}" required minlength="5" maxlength="20">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="inputFirstName" class="col-sm-2 col-form-label">First name:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputFirstName" th:field="*{firstName}" required minlength="2" maxlength="45">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="inputLastName" class="col-sm-2 col-form-label">Last name:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputLastName" th:field="*{lastName}" required minlength="2" maxlength="45">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label">Roles:</label>
+                <div class="col-sm-10">
+                    <th:block th:each="role : ${roles}">
+                        <input type="checkbox" th:field="*{roles}" th:text="${role.name}" th:value="${role.id}" class="m-2"/>
+                        - <small th:text="${role.description}"></small>
+                        <br>
+                    </th:block>
+                </div>
+            </div>
+            <div class="text-center">
+                <input type="submit" value="Add" class="btn btn-primary m-3">
+            </div>
+        </div>
+    </form>
+</div>
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

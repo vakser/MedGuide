@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments :: page-head('Diseases')}"></head>
+<body>
+    <div th:replace="~{navigation :: menu}"></div>
+    <div class="container-fluid mb-lg-5">
+        <div class="text-center">
+            <h3>List of diseases</h3>
+        </div>
+        <div th:if="${successMsgAdd != null}" th:text="${successMsgAdd}" class="alert alert-success"></div>
+        <div th:if="${message != null}" th:text="${message}" class="alert alert-success"></div>
+        <div th:if="${messageNameNotUnique != null}" th:text="${messageNameNotUnique}" class="alert alert-danger"></div>
+        <div sec:authorize="hasAuthority('Admin')">
+            <a class="btn btn-secondary mb-2" th:href="@{/createDisease}">Add new disease</a>
+        </div>
+        <div th:if="${diseases.size() == 0}">
+            <div class="text-center">
+                <h3>There are no added diseases yet!</h3>
+            </div>
+        </div>
+        <div th:if="${diseases.size() > 0}">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Signs</th>
+                    <th>Diagnostic procedures</th>
+                    <th>Treatment</th>
+                    <th>Prescription</th>
+                    <th sec:authorize="hasAuthority('Admin')">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="disease : ${diseases}">
+                    <td th:text="${disease.id}"></td>
+                    <td th:text="${disease.name}"></td>
+                    <td>
+                        <ul th:each="sign : ${disease.signs}">
+                            <li th:text="${sign.name}"></li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul th:each="procedure : ${disease.diagnosticProcedures}">
+                            <li th:text="${procedure.name}"></li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul th:each="medication : ${disease.medications}">
+                            <li th:text="${medication.name}"></li>
+                        </ul>
+                    </td>
+                    <td>
+                        <a class="btn btn-secondary" th:href="@{prescribeTreatment(diseaseId=${disease.getId()})}">Prescribe</a>
+                    </td>
+                    <td sec:authorize="hasAuthority('Admin')">
+                        <a class="btn btn-danger" data-bs-target="#myconfirm" data-bs-toggle="modal"
+                           th:attr="data-bs-link=@{deleteDisease(diseaseId=${disease.id})}, data-bs-text=${disease.name}">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal fade" id="myconfirm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticWarningLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title fs-5" id="staticWarningLabel">Warning</h2>
+                        <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        You are about to delete disease <span style="color: red;" id="disease-txt" class="span-txt">disease</span><br/>
+                        If you click delete, this <i style="color: red">cannot be undone</i>.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <a class="btn btn-danger delete-button">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="~{fragments :: footer}"></footer>
+    <script th:src="@{/js/deleteConfirmationDisease.js}"></script>
+</body>
+</html>

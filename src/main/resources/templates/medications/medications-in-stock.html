@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: page-head('Medications in stock')}"></head>
+<body>
+<div th:replace="~{navigation :: menu}"></div>
+<div class="container-fluid mb-lg-5">
+    <div class="text-center">
+        <h3>List of medications in storage</h3>
+    </div>
+    <div th:if="${message != null}" th:text="${message}" class="alert alert-success"></div>
+    <div th:if="${successMessage != null}" th:text="${successMessage}" class="alert alert-success"></div>
+    <div th:if="${messageNameAndActiveIngredientNotUnique != null}" th:text="${messageNameAndActiveIngredientNotUnique}" class="alert alert-danger"></div>
+    <div>
+        <a class="btn btn-secondary mb-2" th:href="@{/createNewMedication}">Add new medication</a>
+    </div>
+    <div th:if="${medicationsInStock.size() == 0}">
+        <div class="text-center">
+            <h3>There are no medications in storage at the moment!</h3>
+        </div>
+    </div>
+    <div th:if="${medicationsInStock.size() > 0}">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Active ingredient</th>
+                <th>Amount</th>
+                <th>Update amount</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="medicationInStock : ${medicationsInStock}">
+                <td th:text="${medicationInStock.id}"></td>
+                <td th:text="${medicationInStock.name}"></td>
+                <td th:text="${medicationInStock.activeIngredient}"></td>
+                <td th:text="${medicationInStock.amount}"></td>
+                <td>
+                    <a class="btn btn-warning" th:href="@{/updateAmountForm(medicationInStorageId=${medicationInStock.getId()})}">Increase amount</a>
+                </td>
+                <td>
+                    <a class="btn btn-danger" data-bs-target="#myconfirm" data-bs-toggle="modal"
+                       th:attr="data-bs-link=@{deleteMedication(medicationId=${medicationInStock.getId()})}, data-bs-text=${medicationInStock.name + ' (active ingredient - ' + medicationInStock.activeIngredient} + ')'">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal fade" id="myconfirm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticWarningLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title fs-5" id="staticWarningLabel">Warning</h2>
+                    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    You are about to delete medication <span style="color: red;" id="medication-txt" class="span-txt">medication</span><br/>
+                    If you click delete, this <i style="color: red">cannot be undone</i>.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger delete-button">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="~{fragments :: footer}"></footer>
+<script th:src="@{/js/deleteConfirmationMedication.js}"></script>
+</body>
+</html>

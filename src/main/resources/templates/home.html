@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments :: page-head('Home')}"></head>
+<body>
+    <div th:replace="~{navigation :: menu}"></div>
+    <div class="container-fluid">
+        <div class="text-center">
+            <h2>Welcome to MedGuide, <span th:text="${authenticatedUser.firstName + ' ' + authenticatedUser.lastName}"></span></h2>
+            <h4>You have access to this application as <span sec:authentication="principal.authorities"></span></h4>
+        </div>
+    </div>
+    <footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>
