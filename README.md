@@ -57,5 +57,6 @@ break the app. For demonstration purposes, only back-end data validation was imp
 - Any comments, corrections and advices will be appreciated.
 
 - You can use the image below as an example for creation of diseases:
+  
+![Diseases](https://github.com/vakser/MedGuide/assets/65089446/673e1b6d-c4c2-40e3-b2a0-ab1e846d8a53)
 
-![Diseases.png](..%2F..%2F..%2FPictures%2FScreenshots%2FDiseases.png)
